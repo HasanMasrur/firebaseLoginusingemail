@@ -30,5 +30,18 @@ class ModelData with ChangeNotifier {
     String message = 'Something is Wrong';
     print('...........');
     print(responseData);
+
+    if (responseData.containsKey('idToken')) {
+      hasError = false;
+      message = 'Login successfuly';
+    } else if (responseData['error']['message'] == 'EMAIL_EXISTS') {
+      message = 'This email already exists.';
+    } else if (responseData['error']['message'] == 'EMAIL_NOT_FOUND') {
+      message = 'This email was not found.';
+    } else if (responseData['error']['message'] == 'INVALID_PASSWORD') {
+      message = 'The password is invalid.';
+    }
+    notifyListeners();
+    return {'success': !hasError, 'message': message};
   }
 }

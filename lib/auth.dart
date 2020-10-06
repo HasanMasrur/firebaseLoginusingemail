@@ -101,11 +101,29 @@ class _Auth extends State<Auth> {
       return;
     }
     _formkey.currentState.save();
-    // final Map<String, dynamic> successfulinformation = await
-    authentication(_frompage['useremail'], _frompage['password'], _autoMode);
+    final Map<String, dynamic> successfulinformation = await authentication(
+        _frompage['useremail'], _frompage['password'], _autoMode);
 
-    // if (successfulinformation['succcess']) {
-    // } else {}
+    if (successfulinformation['success']) {
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('An Error Occourd'),
+            content: Text(successfulinformation['message']),
+            actions: [
+              FlatButton(
+                child: Text('ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
