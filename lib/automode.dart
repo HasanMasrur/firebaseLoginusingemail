@@ -1,0 +1,4 @@
+enum AutoMode {
+  LogIn,
+  SingUp,
+}
