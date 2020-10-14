@@ -15,6 +15,7 @@ class Auth extends StatefulWidget {
 
 class _Auth extends State<Auth> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  bool _obscureText = true;
   final Map<String, dynamic> _frompage = {
     'useremail': null,
     'password': null,
@@ -34,12 +35,9 @@ class _Auth extends State<Auth> {
           fillColor: Colors.white),
       keyboardType: TextInputType.emailAddress,
       validator: (String value) {
-        if (value.isEmpty
-            // ||
-            //     !RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-            //         .hasMatch(value)
-
-            ) {
+        if (value.isEmpty ||
+            !RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                .hasMatch(value)) {
           return 'Please enter a valid email';
         }
       },
@@ -53,9 +51,18 @@ class _Auth extends State<Auth> {
 
   _builtPasswordFile() {
     return TextFormField(
+      obscureText: _obscureText,
       decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          ),
+          suffix: GestureDetector(
+            child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
           ),
           labelText: "Password",
           filled: true,
@@ -76,6 +83,7 @@ class _Auth extends State<Auth> {
 
   _builtConfrimpasswordField() {
     return TextFormField(
+      obscureText: _obscureText,
       decoration: InputDecoration(
         border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(25.0))),
@@ -130,11 +138,19 @@ class _Auth extends State<Auth> {
   Widget build(BuildContext context) {
     double doublewidth = MediaQuery.of(context).size.width;
     double targetwidth = doublewidth > 550 ? 500.0 : doublewidth * .95;
+
     return Scaffold(
         appBar: AppBar(
           title: Text("${_autoMode == AutoMode.LogIn ? 'SingIn' : 'SingUp'}"),
         ),
         body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                colorFilter: ColorFilter.mode(
+                    Colors.white.withOpacity(0.4), BlendMode.dstATop),
+                image: AssetImage('assets/background.jpg'),
+                fit: BoxFit.cover),
+          ),
           padding: EdgeInsets.all(20),
           child: Center(
             child: SingleChildScrollView(
