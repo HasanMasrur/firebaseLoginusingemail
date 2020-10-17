@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:authenticationfile/automode.dart';
+import 'package:authenticationfile/homepage.dart';
 import 'package:authenticationfile/providermodel/ModelData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -113,6 +114,8 @@ class _Auth extends State<Auth> {
         _frompage['useremail'], _frompage['password'], _autoMode);
 
     if (successfulinformation['success']) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Homepage()));
     } else {
       showDialog(
         context: context,
